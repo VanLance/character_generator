@@ -73,9 +73,9 @@ ul#horizontal-list a:nth-last-child(1){
     background-image: linear-gradient(to right bottom, rgba(75, 205, 245, 0.7), rgba(70, 50, 158, 0.6)), url(../css/images/dragon_party.jpg);
     background-size: cover;
     background-position: 35%;
-    -webkit-clip-path: polygon(0 0, 100% 0, 100% 90vh, 0 100%);
+    /* -webkit-clip-path: polygon(0 0, 100% 0, 100% 90vh, 0 100%);
     clip-path: polygon(0 0, 100% 0, 100% 90vh, 0 100%);
-    position: relative;
+    position: relative; */
     height: 95vh;
 }
 .hero-section-universe{
