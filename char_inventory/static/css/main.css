@@ -1,0 +1,130 @@
+/*  Nav Styles  */
+.ct-nav{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+/*  Target Main Logo Image  */
+.ct-nav img{
+    width: 50%;
+    max-width: 100%;
+    margin-left: 1vw;
+}
+
+ul#horizontal-list{
+    min-width: 696px;
+    list-style: none;
+    padding-top: 20px;
+}
+
+ul#horizontal-list li, ul#horizontal-list a{
+    display: inline;
+    text-decoration: none;
+    padding: 0.5vw;
+    color: black;
+}
+
+ul#horizontal-list a:nth-last-child(1){
+    border: 2px solid blue;
+    border-radius: 11px;
+    margin-right: 0.2vw;
+}
+
+/*  End of Nav Styles  */
+
+/* Profile Styles Section */
+.hero-section{
+    height: 95vh;
+    background-image:linear-gradient(to right bottom, rgba(204, 21, 61, 0.7), rgba(83, 10, 32, 0.6)), url(../css/images/dragon_fire_shield.jpg);
+    background-size: cover;
+    background-position: 35%;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+    position: relative;
+}
+
+.hero-section-characters{
+    background-image: linear-gradient(to right bottom, rgba(75, 205, 245, 0.7), rgba(70, 50, 158, 0.6)), url(../css/images/beholder.jpg);
+    background-size: cover;
+    background-position: 35%;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+    position: relative;
+    height: 95vh;
+}
+.hero-section-signup{
+    background-image: url(../css/images/dragon_elemental.jpg);
+    background-size: cover;
+    background-position: 35%;
+    
+    position: relative;
+    height: 95vh;
+}
+.hero-section-signin{
+    background-image: url(../css/images/alien_tundra.jpg);
+    background-size: cover;
+    background-position: 35%;
+    
+    position: relative;
+    height: 95vh;
+}
+.hero-section-create{
+    background-image: linear-gradient(to right bottom, rgba(75, 205, 245, 0.7), rgba(70, 50, 158, 0.6)), url(../css/images/dragon_party.jpg);
+    background-size: cover;
+    background-position: 35%;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 90vh, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 90vh, 0 100%);
+    position: relative;
+    height: 95vh;
+}
+.hero-section-universe{
+    background-image: url(../css/images/alien_tundra.jpg);
+    background-size: cover;
+    height: 95vh;
+    
+}
+.header-text{
+    display: flex;
+    justify-content: center;
+    padding-top: 20%;
+    left: 20rem;
+    top: 10rem;
+    color: white;
+}
+
+.bg_pic{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Arvo', serif;
+    background: #222; 
+    background-image: url(../css/images/OG.jfif);
+    background-size: cover;
+    background-position: 35%;
+
+}
+
+.wrapper{
+    background: rgb(103, 17, 114);
+    font-family: 'Arvo', serif;
+    color: white;
+    padding: 2em;
+    border-radius: 30px;
+    width: 40%;
+    max-width: 420px;
+    margin: 1em;
+}
+
+.submitButton{
+    width: 80px;
+    border-radius: 98%;
+    outline: none;
+    background: rgb(122, 122, 119);
+}
+
+#whiteText{
+    color: white;
+}

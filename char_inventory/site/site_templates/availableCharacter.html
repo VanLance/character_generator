@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<header class="hero-section-universe">
+<div class="container">
+  <table class="table table-hover table-bordered table-dark table-striped">
+      <thead>
+            <tr>
+              <th scope="col">Level</th>
+              <th scope="col">Name</th>
+              <th scope="col">Race</th>
+              <th scope="col">Class</th>
+              <th scope="col">Hp</th>
+              <th scope="col">AC</th>
+              <th scope="col">Strength</th>
+              <th scope="col">Dexterity</th>
+              <th scope="col">constitution</th>
+              <th scope="col">Intellegence</th>
+              <th scope="col">Wisdom</th>
+              <th scope="col">Charisma</th>
+              
+            </tr>
+      </thead>
+      {% for char in characters %}
+          <tbody>
+            <tr>
+              <th scope="row">{{ char.level }}</th>
+              <td>{{ char.name.title() }}</td>
+              <td>{{ char.race.title() }}</td>
+              <td>{{ char.charClass.title() }}</td>
+              <td>{{ char.hp }}</td>
+              <td>{{ char.ac }}</td> 
+              <td>{{ char.strength }}</td>
+              <td>{{ char.dexterity }}</td>
+              <td>{{ char.constitution }}</td>
+              <td>{{ char.intellegence }}</td>
+              <td>{{ char.wisdom }}</td>
+              <td>{{ char.charisma }}</td>
+            </tr>
+          </tbody>    
+      {% endfor %}  
+  </table>     
+</div>
+</header>
+
+
+{% endblock content %}
