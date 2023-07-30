@@ -5,27 +5,27 @@ import decimal
 from flask import json
 from flask import request, jsonify
 
-from char_inventory.models import Character, User
+from char_inventory.models import  User
 
 def token_required(our_flask_function):
     @wraps(our_flask_function)
     def decorated(*args, **kwargs):
         token = None
-
         if 'x-access-token' in request.headers:
-            token = request.headers['x-access-token'].split(' ')[1]
+            token = request.headers['x-access-token']
+            print(f'{token= }============if======\n\n')
         if not token:
             return jsonify({'message': 'Token is missing!'}), 401
 
         try:
-            current_user_token = User.query.filter_by(token = token).first()
-            print(token)
+            current_user = User.query.filter_by(token = token).first()
+            print(f'{current_user= }===============================')
         except:
             owner = User.query.filter_by(token = token ).first()
             if token != owner.token and secrets.compare_digest(token, owner.token):
                 return jsonify({'message' : 'Token is invalid'})
 
-        return our_flask_function(current_user_token, *args, **kwargs)
+        return our_flask_function(current_user, *args, **kwargs)
     return decorated
 
 class JSONEncoder(json.JSONEncoder):

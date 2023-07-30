@@ -1,34 +1,26 @@
 from random import randint
 import random
 from char_inventory.buildCharacter.myData import classes, raceList, names, races, modifier
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField,validators
-from wtforms.validators import DataRequired, Email
-
-
-
-
+from char_inventory.models import Character
 
 class createCharacter():
-    def __init__(self, name, gender, race, charClass, level = 1):
-        self.gender = gender
-        self.name = name
-        self.race = race
-        self.charClass = charClass
-        self.level = level
+    def __init__(self, name, gender, race, _class, level = 1):
+        self.gender = gender.lower()
+        self.name = name.lower()
+        self.race = race.lower()
+        self._class = _class.lower()
+        self.level = int(level)
 
     def select(self):
-        
-        if self.charClass.lower() == 'random':
-            self.charClass = random.choice(classes)
-       
-        if self.race.lower() == 'random':
+        if self._class == 'random':
+            self._class = random.choice(classes)
+        if self.race == 'random':
             self.race= random.choice(raceList)
-        
-        if self.name == 'random' and self.gender.lower() == 'male': 
-            self.name = random.choice(names[self.race]['male']).title()
-        elif self.name =='random' and self.gender.lower() == 'female':
-            self.name = random.choice(names[self.race]['female']).title()
+        if self.name == 'random':
+            if self.gender == 'male': 
+                self.name = random.choice(names[self.race]['male']).title()
+            else:
+                self.name = random.choice(names[self.race]['female']).title()
         print(f'\nName: {self.name}\n')  
 
     def statRolls(self):
@@ -40,7 +32,6 @@ class createCharacter():
             print(f'Roll {i+1}: {stat}\n')
             sortedStat = sorted(stat)
             threeBest= sortedStat[1::]
-            # print(threeBest)
             statsArr.append(sum(threeBest))
             stat =[]
         self.charStats= sorted(statsArr)
@@ -110,7 +101,7 @@ class createCharacter():
             else:
                 self.charStats[-3] += 2
                
-        if self.level >= 10 and self.charClass.lower() == 'rogue':
+        if self.level >= 10 and self._class == 'rogue':
             if self.charStats[-2] <= 17:
                 if self.charStats[-2] % 2 == 1:
                     self.charStats[-2] += 1
@@ -145,7 +136,7 @@ class createCharacter():
             else:
                 self.charStats[-3] += 2
         
-        if self.level >= 14 and self.charClass.lower() == 'fighter':
+        if self.level >= 14 and self._class == 'fighter':
             if self.charStats[-2] <= 17:
                 if self.charStats[-2] % 2 == 1:
                     self.charStats[-2] += 1
@@ -351,48 +342,50 @@ class createCharacter():
 
     def spellDc(self):
         self.dc = 8 + self.bonus
-        if self.charClass.lower() in ['bard', 'paladin', 'sorcerer', 'warlock']:
+        if self._class in ['bard', 'paladin', 'sorcerer', 'warlock']:
             self.dc += modifier[self.stats['cha']]
-        if self.charClass.lower() == 'cleric' or 'druid':
+        if self._class == 'cleric' or 'druid':
             self.dc += modifier[self.stats['wis']]
-        if self.charClass.lower() in ['fighter', 'wizard', 'rogue']:
+        if self._class in ['fighter', 'wizard', 'rogue']:
             self.dc += modifier[self.stats['int']]
         return self.dc
+    def commitDB(self):
+        newCharacter = createCharacter(self.name, self.gender, self.race, self._class, self.level)
 
 
 # maleRandom= createCharacter('male',  random.choice(raceList), random.choice(classes))            
 # randomChar = createCharacter('female',random.choice(raceList), random.choice(classes))            
   
 def runCreate(character):
-    
     character.select()
     character.statRolls()
-    print(f'Your new character\'s Race: {character.race.upper()}\nClass: {character.charClass.upper()}')
-    if character.charClass == classes[0]:
+    print(character._class,'=========')
+    print(f'Your new character\'s Race: {character.race.upper()}\nClass: {character._class.upper()}')
+    if character._class == classes[0]:
         character.barbarian()
-    elif character.charClass == classes[1]:
+    elif character._class == classes[1]:
         character.bard()
-    elif character.charClass == classes[2]:
+    elif character._class == classes[2]:
         character.cleric()
-    elif character.charClass == classes[3]:
+    elif character._class == classes[3]:
         character.druid()
-    elif character.charClass == classes[4]:
+    elif character._class == classes[4]:
         character.fighter()
-    elif character.charClass == classes[5]:
+    elif character._class == classes[5]:
         character.dex_fighter()
-    elif character.charClass == classes[6]:
+    elif character._class == classes[6]:
         character.monk()
-    elif character.charClass == classes[7]:
+    elif character._class == classes[7]:
         character.paladin()
-    elif character.charClass == classes[8]:
+    elif character._class == classes[8]:
         character.ranger()
-    elif character.charClass == classes[9]:
+    elif character._class == classes[9]:
         character.rogue()
-    elif character.charClass == classes[10]:
+    elif character._class == classes[10]:
         character.sorcerer()    
-    elif character.charClass == classes[11]:
+    elif character._class == classes[11]:
         character.warlock()
-    elif character.charClass == classes[12]:
+    elif character._class == classes[12]:
         character.wizard()
     
     character.charRace()
@@ -403,7 +396,7 @@ def runCreate(character):
     
     print(f'\nRacial bonus for your {character.race}: {races[character.race]} ')
     print(f'\nNew stats after racial bonus: {character.stats}\nHP:{character.hp}\nAC:{character.ac}\nProficiency Bonus: {character.bonus}')
-    # if character.charClass.lower() in ['bard', 'paladin', 'sorcerer', 'warlock','cleric','druid','fighter', 'wizard', 'rogue']:
+    # if character._class in ['bard', 'paladin', 'sorcerer', 'warlock','cleric','druid','fighter', 'wizard', 'rogue']:
     #     character.spellDc()
     #     print(f'Spell DC: {character.dc}')
     
@@ -412,7 +405,7 @@ def runCreate(character):
     character.completeCharacter = {
      'name': character.name,
      "race": character.race, 
-     "class": character.charClass, 
+     "class": character._class, 
      'level': character.level,
      "hp": character.hp,
      "ac": character.ac,
@@ -425,10 +418,10 @@ def runCreate(character):
      'proficiencyBonus': character.bonus,
      }
     character.completeCharacter['spellDC'] = character.dc
-    # if character.charClass.lower() in ['bard', 'paladin', 'sorcerer', 'warlock','cleric','druid','fighter', 'wizard', 'rogue']:
+    # if character._class in ['bard', 'paladin', 'sorcerer', 'warlock','cleric','druid','fighter', 'wizard', 'rogue']:
     #     character.completeCharacter['spellDC'] = character.dc
     print('\n', character.completeCharacter)
-    return character.completeCharacter, character.level
+    return character.completeCharacter
      
     
     

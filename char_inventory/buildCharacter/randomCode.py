@@ -17,11 +17,11 @@ class createChar():
         self.level = level
 
     def select(self):
-        self.charClass = input('\nChoose your character class/ or enter random: \n').lower()
-        if self.charClass not in classesTerminal:
-            self.charClass = input('\nPlease choose a valid class/ or enter random: \n').lower()
-        if self.charClass == 'random':
-            self.charClass = random.choice(classes)
+        self._class = input('\nChoose your character class/ or enter random: \n').lower()
+        if self._class not in classesTerminal:
+            self._class = input('\nPlease choose a valid class/ or enter random: \n').lower()
+        if self._class == 'random':
+            self._class = random.choice(classes)
         self.race = input('\nNow choose your race/ or enter random: \n').lower()
         if self.race not in raceListTerminal:
             self.race = input('\nPlease choose a valid race/ or enter random: \n').lower()
@@ -115,7 +115,7 @@ class createChar():
             else:
                 self.charStats[-3] += 2
                
-        if self.level >= 10 and self.charClass.lower() == 'rogue':
+        if self.level >= 10 and self._class.lower() == 'rogue':
             if self.charStats[-2] <= 17:
                 if self.charStats[-2] % 2 == 1:
                     self.charStats[-2] += 1
@@ -150,7 +150,7 @@ class createChar():
             else:
                 self.charStats[-3] += 2
         
-        if self.level >= 14 and self.charClass.lower() == 'fighter':
+        if self.level >= 14 and self._class.lower() == 'fighter':
             if self.charStats[-2] <= 17:
                 if self.charStats[-2] % 2 == 1:
                     self.charStats[-2] += 1
@@ -356,11 +356,11 @@ class createChar():
 
     def spellDc(self):
         self.dc = 8 + self.bonus
-        if self.charClass.lower() in ['bard', 'paladin', 'sorcerer', 'warlock']:
+        if self._class.lower() in ['bard', 'paladin', 'sorcerer', 'warlock']:
             self.dc += modifier[self.stats['cha']]
-        if self.charClass.lower() == 'cleric' or 'druid':
+        if self._class.lower() == 'cleric' or 'druid':
             self.dc += modifier[self.stats['wis']]
-        if self.charClass.lower() in ['fighter', 'wizard', 'rogue']:
+        if self._class.lower() in ['fighter', 'wizard', 'rogue']:
             self.dc += modifier[self.stats['int']]
         return self.dc  
 
@@ -373,32 +373,32 @@ def runCreate(character):
     
     character.select()
     character.statRolls()
-    print(f'Your new character\'s Race: {character.race.upper()}\nClass: {character.charClass.upper()}')
-    if character.charClass == classes[0]:
+    print(f'Your new character\'s Race: {character.race.upper()}\nClass: {character._class.upper()}')
+    if character._class == classes[0]:
         character.barbarian()
-    elif character.charClass == classes[1]:
+    elif character._class == classes[1]:
         character.bard()
-    elif character.charClass == classes[2]:
+    elif character._class == classes[2]:
         character.cleric()
-    elif character.charClass == classes[3]:
+    elif character._class == classes[3]:
         character.druid()
-    elif character.charClass == classes[4]:
+    elif character._class == classes[4]:
         character.fighter()
-    elif character.charClass == classes[5]:
+    elif character._class == classes[5]:
         character.dex_fighter()
-    elif character.charClass == classes[6]:
+    elif character._class == classes[6]:
         character.monk()
-    elif character.charClass == classes[7]:
+    elif character._class == classes[7]:
         character.paladin()
-    elif character.charClass == classes[8]:
+    elif character._class == classes[8]:
         character.ranger()
-    elif character.charClass == classes[9]:
+    elif character._class == classes[9]:
         character.rogue()
-    elif character.charClass == classes[10]:
+    elif character._class == classes[10]:
         character.sorcerer()    
-    elif character.charClass == classes[11]:
+    elif character._class == classes[11]:
         character.warlock()
-    elif character.charClass == classes[12]:
+    elif character._class == classes[12]:
         character.wizard()
     
     character.charRace()
@@ -409,7 +409,7 @@ def runCreate(character):
     
     print(f'\nRacial bonus for your {character.race}: {races[character.race]} ')
     print(f'\nNew stats after racial bonus: {character.stats}\nHP:{character.hp}\nAC:{character.ac}\nProficiency Bonus: {character.bonus}')
-    if character.charClass.lower() in ['bard', 'paladin', 'sorcerer', 'warlock','cleric','druid','fighter', 'wizard', 'rogue']:
+    if character._class.lower() in ['bard', 'paladin', 'sorcerer', 'warlock','cleric','druid','fighter', 'wizard', 'rogue']:
         character.spellDc()
         print(f'Spell DC: {character.dc}')
 
@@ -419,7 +419,7 @@ def runCreate(character):
      'name': character.name,
      "race": character.race, 
      'level': character.level,
-     "class": character.charClass, 
+     "class": character._class, 
      "hp": character.hp,
      "ac": character.ac,
      "strength": character.stats['str'],
@@ -430,7 +430,7 @@ def runCreate(character):
      "charisma" : character.stats['cha'],
      'proficiencyBonus': character.bonus,
      }
-    if character.charClass.lower() in ['bard', 'paladin', 'sorcerer', 'warlock','cleric','druid','fighter', 'wizard', 'rogue']:
+    if character._class.lower() in ['bard', 'paladin', 'sorcerer', 'warlock','cleric','druid','fighter', 'wizard', 'rogue']:
         character.completeCharacter['spellDC'] = character.dc
     print('\n', character.completeCharacter)
     return character.completeCharacter

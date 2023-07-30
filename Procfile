@@ -1,1 +1,0 @@
-web: gunicorn char_inventory:app --preload --timeout 60

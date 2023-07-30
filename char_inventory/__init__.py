@@ -3,9 +3,8 @@ from config import Config
 from .site.routes import site
 from .authentication.routes import auth
 from .models import db as root_db, login_manager, ma
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from .api.routes import api
+from .api.auth_routes import api
 
 from char_inventory.helpers import JSONEncoder
 

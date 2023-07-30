@@ -54,7 +54,7 @@ def creation():
         form.thisRace.data = ''
         thisClass = form.thisClass.data
         form.thisClass.data = ''
-        commitCharacter=Character(theRandom.name.title(), theRandom.level, theRandom.race, theRandom.charClass, theRandom.hp, theRandom.ac, theRandom.stats['str'],
+        commitCharacter=Character(theRandom.name.title(), theRandom.level, theRandom.race, theRandom._class, theRandom.hp, theRandom.ac, theRandom.stats['str'],
         theRandom.stats['dex'],theRandom.stats['con'],theRandom.stats['int'],theRandom.stats['wis'],
         theRandom.stats['cha'], theRandom.dc, current_user.token)
         
@@ -70,7 +70,7 @@ def creation():
                    
                 
         
-        flash(f'Congrats! {theRandom.name.title()} The {theRandom.gender.title()}, {theRandom.race.title()}, {theRandom.charClass.title()} submitted successfully!')
+        flash(f'Congrats! {theRandom.name.title()} The {theRandom.gender.title()}, {theRandom.race.title()}, {theRandom._class.title()} submitted successfully!')
         flash(f'Stat rolls: {theRandom.charStats} {theRandom.race.title()}  Racial Bonus: {races[theRandom.race]}')   
         return render_template('creation.html', 
             form= form,

@@ -1,4 +1,4 @@
-char_env
+venv
 .env
 __pycache__
 migrations
