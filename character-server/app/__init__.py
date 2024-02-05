@@ -21,4 +21,4 @@ api.register_blueprint(post_bp)
 from resources.users import routes
 from resources.characters import routes
 
-from models import UserModel, CharacterModel
+from models import UserModel, CharacterModel, CharacterStatsModel

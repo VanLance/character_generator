@@ -1,96 +1,90 @@
-from random import randint, choice, randrange
+from random import randint
+import random
+from .data import classes, raceList, names, races, modifier
 
-from data import classes, raceList, names, races, modifier, raceListTerminal, classesTerminal
 
-
-class createChar():
-    def __init__(self, gender, level = 1):
-        self.gender = gender
-        self.level = level
+class createCharacter():
+    def __init__(self, name, gender, race, _class, level = 1):
+        self.gender = gender.lower()
+        self.name = name.lower()
+        self.race = race.lower()
+        self._class = _class.lower()
+        self.level = int(level)
 
     def select(self):
-        self.archetype = input('\nChoose your character class/ or enter random: \n').lower()
-        if self.archetype not in classesTerminal:
-            self.archetype = input('\nPlease choose a valid class/ or enter random: \n').lower()
-        if self.archetype == 'random':
-            self.archetype = choice(classes)
-        self.race = input('\nNow choose your race/ or enter random: \n').lower()
-        if self.race not in raceListTerminal:
-            self.race = input('\nPlease choose a valid race/ or enter random: \n').lower()
-            if self.race == 'random':
-                self.race= choice(raceList)
+        if self._class == 'random':
+            self._class = random.choice(classes)
         if self.race == 'random':
-            self.race= choice(raceList)
-        self.name = input('\nName your character/ or enter random: \n').lower()
-        if self.name == 'random' and self.gender.lower() == 'male': 
-            self.name = choice(names[self.race]['male']).title()
-        elif self.name =='random' and self.gender.lower() == 'female':
-            self.name = choice(names[self.race]['female']).title()
+            self.race= random.choice(raceList)
+        if self.name == 'random':
+            if self.gender == 'male': 
+                self.name = random.choice(names[self.race]['male']).title()
+            else:
+                self.name = random.choice(names[self.race]['female']).title()
         print(f'\nName: {self.name}\n')  
 
     def statRolls(self):
         stat = []
         statsArr = []
         for i in range(6):
-            for dice in range(4):
+            for die in range(4):
                 stat.append(randint(1,6))
             print(f'Roll {i+1}: {stat}\n')
             sortedStat = sorted(stat)
             threeBest= sortedStat[1::]
-            # print(threeBest)
             statsArr.append(sum(threeBest))
             stat =[]
         self.charStats= sorted(statsArr)
         print(self.charStats, '\n')
-        if self.level >= 4:
-            if self.charStats[0] % 2 == 1 and self.charStats[-1] % 2 == 1:
-                self.charStats[0] += 1
-                self.charStats[-1] += 1
-            elif self.charStats[0] % 2 == 1 and self.charStats[-2] % 2 == 1:
-                self.charStats[0] += 1
-                self.charStats[-2] += 1
-            elif self.charStats[0] % 2 == 1 and self.charStats[-3] % 2 == 1:
-                self.charStats[0] += 1
-                self.charStats[-3] += 1
-            elif self.charStats[0] % 2 == 1 and self.charStats[-4] % 2 == 1:
-                self.charStats[0] += 1
-                self.charStats[-4] += 1
-            elif self.charStats[0] % 2 == 1 and self.charStats[1] % 2 == 1:
-                self.charStats[0] += 1
-                self.charStats[1] += 1
-                
-            elif self.charStats[1] % 2 == 1 and self.charStats[-1] % 2 == 1:
-                self.charStats[1] += 1
-                self.charStats[-1] += 1
-            elif self.charStats[1] % 2 == 1 and self.charStats[-2] % 2 == 1:
-                self.charStats[1] += 1
-                self.charStats[-2] += 1
-            elif self.charStats[1] % 2 == 1 and self.charStats[-3] % 2 == 1:
-                self.charStats[1] += 1
-                self.charStats[-3] += 1
-            elif self.charStats[1] % 2 == 1 and self.charStats[-4] % 2 == 1:
-                self.charStats[1] += 1
-                self.charStats[-4] += 1
-            elif self.charStats[1] % 2 == 1 and self.charStats[-4] % 2 == 1:
-                self.charStats[1] += 1
-                self.charStats[-4] += 1
 
-            elif self.charStats[2] % 2 == 1 and self.charStats[-1] % 2 == 1:
-                self.charStats[2] += 1
-                self.charStats[-1] += 1
-            elif self.charStats[2] % 2 == 1 and self.charStats[-2] % 2 == 1:
-                self.charStats[2] += 1
-                self.charStats[-2] += 1
-            elif self.charStats[2] % 2 == 1 and self.charStats[-3] % 2 == 1:
-                self.charStats[2] += 1
-                self.charStats[-3] += 1
-            
-            elif self.charStats[-3] % 2 == 1 and self.charStats[-1] % 2 == 1:
-                self.charStats[-3] += 1
-                self.charStats[-1] += 1
-            elif self.charStats[-3] % 2 == 1 and self.charStats[-2] % 2 == 1:
-                self.charStats[-3] += 1
-                self.charStats[-2] += 1
+        if self.charStats[0] % 2 == 1 and self.charStats[-1] % 2 == 1:
+            self.charStats[0] += 1
+            self.charStats[-1] += 1
+        elif self.charStats[0] % 2 == 1 and self.charStats[-2] % 2 == 1:
+            self.charStats[0] += 1
+            self.charStats[-2] += 1
+        elif self.charStats[0] % 2 == 1 and self.charStats[-3] % 2 == 1:
+            self.charStats[0] += 1
+            self.charStats[-3] += 1
+        elif self.charStats[0] % 2 == 1 and self.charStats[-4] % 2 == 1:
+            self.charStats[0] += 1
+            self.charStats[-4] += 1
+        elif self.charStats[0] % 2 == 1 and self.charStats[1] % 2 == 1:
+            self.charStats[0] += 1
+            self.charStats[1] += 1
+             
+        elif self.charStats[1] % 2 == 1 and self.charStats[-1] % 2 == 1:
+            self.charStats[1] += 1
+            self.charStats[-1] += 1
+        elif self.charStats[1] % 2 == 1 and self.charStats[-2] % 2 == 1:
+            self.charStats[1] += 1
+            self.charStats[-2] += 1
+        elif self.charStats[1] % 2 == 1 and self.charStats[-3] % 2 == 1:
+            self.charStats[1] += 1
+            self.charStats[-3] += 1
+        elif self.charStats[1] % 2 == 1 and self.charStats[-4] % 2 == 1:
+            self.charStats[1] += 1
+            self.charStats[-4] += 1
+        elif self.charStats[1] % 2 == 1 and self.charStats[-4] % 2 == 1:
+            self.charStats[1] += 1
+            self.charStats[-4] += 1
+
+        elif self.charStats[2] % 2 == 1 and self.charStats[-1] % 2 == 1:
+            self.charStats[2] += 1
+            self.charStats[-1] += 1
+        elif self.charStats[2] % 2 == 1 and self.charStats[-2] % 2 == 1:
+            self.charStats[2] += 1
+            self.charStats[-2] += 1
+        elif self.charStats[2] % 2 == 1 and self.charStats[-3] % 2 == 1:
+            self.charStats[2] += 1
+            self.charStats[-3] += 1
+        
+        elif self.charStats[-3] % 2 == 1 and self.charStats[-1] % 2 == 1:
+            self.charStats[-3] += 1
+            self.charStats[-1] += 1
+        elif self.charStats[-3] % 2 == 1 and self.charStats[-2] % 2 == 1:
+            self.charStats[-3] += 1
+            self.charStats[-2] += 1
         
         if self.level >= 8:
             if self.charStats[-1] <= 16:
@@ -107,7 +101,7 @@ class createChar():
             else:
                 self.charStats[-3] += 2
                
-        if self.level >= 10 and self.archetype.lower() == 'rogue':
+        if self.level >= 10 and self._class == 'rogue':
             if self.charStats[-2] <= 17:
                 if self.charStats[-2] % 2 == 1:
                     self.charStats[-2] += 1
@@ -142,7 +136,7 @@ class createChar():
             else:
                 self.charStats[-3] += 2
         
-        if self.level >= 14 and self.archetype.lower() == 'fighter':
+        if self.level >= 14 and self._class == 'fighter':
             if self.charStats[-2] <= 17:
                 if self.charStats[-2] % 2 == 1:
                     self.charStats[-2] += 1
@@ -203,12 +197,11 @@ class createChar():
                     self.charStats[-5] += 1
                 elif self.charStats[-4] % 2 == 0:
                     self.charStats[-4] += 2
-        
         if self.level >= 4:
-            print(f'Stats with Ability Score Improvement: {self.charStats} \n')   
-        return self.charStats   
+            print(f'Stats with Ability Score Improvement: {self.charStats} \n')
+        return self.charStats
         
-    
+        
     def barbarian(self):
         self.stats= {'str': self.charStats[-1], 'con': self.charStats[-2], 'dex': self.charStats[-3], 'int': self.charStats[0], 'wis':self.charStats[1], 'cha': self.charStats[2]}
         self.hitDice= 12 
@@ -320,7 +313,7 @@ class createChar():
             self.hp += self.hitDice 
         if self.level > 1:
             for i in range(self.level -1):
-                self.hp += randint(1, self.hitDice)    
+                self.hp += random.randint(1, self.hitDice)    
         return self.hp
 
     def armorClass(self):
@@ -333,64 +326,66 @@ class createChar():
             self.ac *= -1 
             self.ac += 10
             # print(f'\nStarting ac: {self.ac}')
-            return self.ac
+            return self.ac        
+    
     def proficiency(self):
         self.bonus = 2
         if self.level >= 5:
             self.bonus = 3
-        if self.level >= 9:
+        elif self.level >= 9:
             self.bonus = 4
-        if self.level >= 13:
+        elif self.level >= 13:
             self.bonus = 5
-        if self.level >=17:
+        elif self.level >=17:
             self.bonus = 6
-        return self.bonus      
+        return self.bonus
 
     def spellDc(self):
         self.dc = 8 + self.bonus
-        if self.archetype.lower() in ['bard', 'paladin', 'sorcerer', 'warlock']:
+        if self._class in ['bard', 'paladin', 'sorcerer', 'warlock']:
             self.dc += modifier[self.stats['cha']]
-        if self.archetype.lower() == 'cleric' or 'druid':
+        if self._class == 'cleric' or 'druid':
             self.dc += modifier[self.stats['wis']]
-        if self.archetype.lower() in ['fighter', 'wizard', 'rogue']:
+        if self._class in ['fighter', 'wizard', 'rogue']:
             self.dc += modifier[self.stats['int']]
-        return self.dc  
+        return self.dc
+    def commitDB(self):
+        newCharacter = createCharacter(self.name, self.gender, self.race, self._class, self.level)
 
 
-maleRandom= createChar('male')            
-randomChar = createChar('female', 19)            
-completeCharacter = {}                        
-            
+# maleRandom= createCharacter('male',  random.choice(raceList), random.choice(classes))            
+# randomChar = createCharacter('female',random.choice(raceList), random.choice(classes))            
+  
 def runCreate(character):
-    
     character.select()
     character.statRolls()
-    print(f'Your new character\'s Race: {character.race.upper()}\nClass: {character.archetype.upper()}')
-    if character.archetype == classes[0]:
+    print(character._class,'=========')
+    print(f'Your new character\'s Race: {character.race.upper()}\nClass: {character._class.upper()}')
+    if character._class == classes[0]:
         character.barbarian()
-    elif character.archetype == classes[1]:
+    elif character._class == classes[1]:
         character.bard()
-    elif character.archetype == classes[2]:
+    elif character._class == classes[2]:
         character.cleric()
-    elif character.archetype == classes[3]:
+    elif character._class == classes[3]:
         character.druid()
-    elif character.archetype == classes[4]:
+    elif character._class == classes[4]:
         character.fighter()
-    elif character.archetype == classes[5]:
+    elif character._class == classes[5]:
         character.dex_fighter()
-    elif character.archetype == classes[6]:
+    elif character._class == classes[6]:
         character.monk()
-    elif character.archetype == classes[7]:
+    elif character._class == classes[7]:
         character.paladin()
-    elif character.archetype == classes[8]:
+    elif character._class == classes[8]:
         character.ranger()
-    elif character.archetype == classes[9]:
+    elif character._class == classes[9]:
         character.rogue()
-    elif character.archetype == classes[10]:
+    elif character._class == classes[10]:
         character.sorcerer()    
-    elif character.archetype == classes[11]:
+    elif character._class == classes[11]:
         character.warlock()
-    elif character.archetype == classes[12]:
+    elif character._class == classes[12]:
         character.wizard()
     
     character.charRace()
@@ -401,17 +396,17 @@ def runCreate(character):
     
     print(f'\nRacial bonus for your {character.race}: {races[character.race]} ')
     print(f'\nNew stats after racial bonus: {character.stats}\nHP:{character.hp}\nAC:{character.ac}\nProficiency Bonus: {character.bonus}')
-    if character.archetype.lower() in ['bard', 'paladin', 'sorcerer', 'warlock','cleric','druid','fighter', 'wizard', 'rogue']:
-        character.spellDc()
-        print(f'Spell DC: {character.dc}')
-
-        
-
+    # if character._class in ['bard', 'paladin', 'sorcerer', 'warlock','cleric','druid','fighter', 'wizard', 'rogue']:
+    #     character.spellDc()
+    #     print(f'Spell DC: {character.dc}')
+    
+    character.spellDc()
+    print(f'Spell DC: {character.dc}')
     character.completeCharacter = {
      'name': character.name,
      "race": character.race, 
+     "class": character._class, 
      'level': character.level,
-     "class": character.archetype, 
      "hp": character.hp,
      "ac": character.ac,
      "strength": character.stats['str'],
@@ -422,19 +417,8 @@ def runCreate(character):
      "charisma" : character.stats['cha'],
      'proficiencyBonus': character.bonus,
      }
-    if character.archetype.lower() in ['bard', 'paladin', 'sorcerer', 'warlock','cleric','druid','fighter', 'wizard', 'rogue']:
-        character.completeCharacter['spellDC'] = character.dc
+    character.completeCharacter['spellDC'] = character.dc
+    # if character._class in ['bard', 'paladin', 'sorcerer', 'warlock','cleric','druid','fighter', 'wizard', 'rogue']:
+    #     character.completeCharacter['spellDC'] = character.dc
     print('\n', character.completeCharacter)
     return character.completeCharacter
-    
-    
-
-
-
-runCreate(randomChar)
-
-
-
-
-        
-        

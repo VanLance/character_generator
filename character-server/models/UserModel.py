@@ -3,8 +3,8 @@ from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
 followers = db.Table('followers',
-  db.Column('follower_id', db.Integer, db.ForeignKey('users.id')),
-  db.Column('followed_id', db.Integer, db.ForeignKey('users.id'))           
+  db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+  db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))           
 )
 
 class UserModel(db.Model):
@@ -17,7 +17,6 @@ class UserModel(db.Model):
   password_hash = db.Column(db.String, nullable = False)
   first_name = db.Column(db.String)
   last_name = db.Column(db.String)
-  characters = db.relationship('CharactersModel', back_populates='user', lazy='dynamic', cascade='all, delete')
   followed = db.relationship('UserModel', 
     secondary=followers, 
     primaryjoin = followers.c.follower_id == id,
@@ -26,6 +25,7 @@ class UserModel(db.Model):
     lazy='dynamic' 
   )
 
+  characters = db.relationship('CharacterModel', back_populates='user', lazy='dynamic', cascade='all, delete')
   def __repr__(self):
     return f'<User: {self.username}>'
   

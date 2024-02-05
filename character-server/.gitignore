@@ -1,2 +1,2 @@
 server_venv/
-.flaskenv
+.env
