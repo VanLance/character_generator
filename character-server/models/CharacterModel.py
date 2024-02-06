@@ -8,7 +8,7 @@ class CharacterModel(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(100))
-    level = db.Column(db.Numeric(precision = 2))
+    level = db.Column(db.Integer())
     race = db.Column(db.String(50))
     gender = db.Column(db.String(50))
     _class = db.Column(db.String(150))
@@ -17,7 +17,7 @@ class CharacterModel(db.Model):
     user = db.relationship('UserModel', back_populates='characters') 
 
     stats_id = db.Column(db.Integer, db.ForeignKey('character_stats.id'), nullable = False)
-    stats = db.relationship('CharacterStatsModel', backref='character')
+    stats = db.relationship('CharacterStatsModel', backref='character', cascade='all, delete')
 
     def __repr__(self):
         return f'{self.name} level {self.level} {self._class} {self.race}'

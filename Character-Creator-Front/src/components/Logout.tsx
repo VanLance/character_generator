@@ -4,18 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
 
 export default function Logout() {
-    const { setUser } = useContext(AuthContext);
+
+    const { logoutUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-        setUser({
-            loggedIn: false,
-            username: '',
-            token: '',
-        });
-        localStorage.removeItem('token');
-        localStorage.removeItem('username');
-        navigate('/');
+        logoutUser()
+        navigate('/login');
     });
 
     return <Spinner animation="border" />;

@@ -1,36 +1,77 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
+import { CharacterWithStats, LoggedUser } from '../types';
 
 interface UserContextType {
-  user: User;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
+    user: LoggedUser;
+    setUser: React.Dispatch<React.SetStateAction<LoggedUser>>;
+    removeUserCharacter: (characterId: string) => void;
+    updateUserCharacters: (characters: CharacterWithStats[]) => void;
+    loginUser: ( user: LoggedUser) => void
+    logoutUser: () => void;
 }
 
-interface User {
-  readonly id?: string;
-  token: string;
-  username: string;
-  email?: string;
-  loggedIn: boolean;
-}
-
-export const AuthContext = createContext<UserContextType>({} as UserContextType);
+export const AuthContext = createContext<UserContextType>(
+    {} as UserContextType
+);
 
 export default function AuthProvider({
-  children,
+    children,
 }: {
-  children: JSX.Element | JSX.Element[];
+    children: JSX.Element | JSX.Element[];
 }) {
-  const [user, setUser] = useState<User>({
-    username: '',
-    token: '',
-    email: '',
-    loggedIn: false,
-  });
+    const [user, setUser] = useState<LoggedUser>({} as LoggedUser);
 
-  const value = {
-    user,
-    setUser,
-  };
+    useEffect(() => {
+        if (localStorage.getItem('user') && !user.id) {
+            updateUserFromLocal();
+            return;
+        }
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+        if (user.id && !localStorage.getItem('user')) {
+            updateLocalFromUser();
+        }
+    }, [user]);
+
+    function updateUserFromLocal() {
+        setUser(JSON.parse(localStorage.getItem('user') ?? ''));
+      
+        
+    }
+
+    function updateLocalFromUser() {
+        localStorage.setItem('user', JSON.stringify(user));
+    }
+
+    function loginUser(user: LoggedUser){
+      setUser(user)
+    }
+
+    function logoutUser() {
+        localStorage.removeItem('user');
+        setUser({} as LoggedUser);
+    }
+
+    function updateUserCharacters(characters: CharacterWithStats[]) {
+        setUser({ ...user, characters });
+    }
+
+    function removeUserCharacter(characterId: string) {
+        const updatedCharacters = user.characters.filter(
+            (character) => character.id !== characterId
+        );
+        setUser({ ...user, characters: updatedCharacters });
+    }
+
+    const value = {
+        user,
+        setUser,
+        removeUserCharacter,
+        updateUserCharacters,
+        loginUser,
+        logoutUser,
+    };
+
+    return (
+        <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+    );
 }

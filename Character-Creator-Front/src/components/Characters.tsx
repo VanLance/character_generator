@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/esm/Container';
 import Spinner from 'react-bootstrap/Spinner';
@@ -15,33 +15,29 @@ export default function Characters() {
     const { characters, setCharacters } = useCharacterContext();
 
     async function getAllCharacters() {
-        return await fetch(`${base_api_url}/universe`, {
+        const res = await fetch(`${base_api_url}/character`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
         });
+        if (res.ok) {
+            const data = await res.json();
+            return data;
+        }
     }
 
-    async function getUserCharacters() {
-        return await fetch(base_api_url.concat('/api/characters'), {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-access-token': user.token,
-            },
-        });
+    function getUserCharacters() {
+        return user.characters;
     }
 
     useEffect(() => {
         (async () => {
-            const res = username
-                ? await getUserCharacters()
-                : await getAllCharacters();
-            const charactersData = await res.json();
-
-            console.log(charactersData);
-            setCharacters(charactersData);
+            if (username) {
+                setCharacters(getUserCharacters());
+                return;
+            }
+            setCharacters(await getAllCharacters());
         })();
     }, [username]);
 
@@ -56,8 +52,6 @@ export default function Characters() {
                         <CharacterCard
                             character={character}
                             key={character.id}
-                            characters={characters}
-                            setCharacters={setCharacters}
                         />
                     ))}
             </Container>

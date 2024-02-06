@@ -9,7 +9,7 @@ export default function Register() {
     const emailField = useRef<HTMLInputElement>(null);
     const passwordField = useRef<HTMLInputElement>(null);
 
-    const { user, setUser } = useUserContext();
+    const { user, loginUser } = useUserContext();
 
     const navigate = useNavigate();
 
@@ -41,12 +41,8 @@ export default function Register() {
 
         if (res.ok) {
             const data = await res.json();
-            console.log(data);
-            setUser({
-                loggedIn: true,
-                username: usernameField.current?.value || '',
-                token: data.token,
-            });
+            
+            loginUser(data)
             navigate('/');
         }
     }

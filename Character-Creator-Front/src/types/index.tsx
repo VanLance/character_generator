@@ -1,13 +1,12 @@
-export interface Character {
+interface Character {
   _class: string;
   name: string;
   race: string;
   gender: string;
   level: string | number;
-  id?: string;
 }
 
-export interface Stats {
+interface Stats {
   strength: string | number;
   wisdom: string | number;
   charisma: string | number;
@@ -19,6 +18,24 @@ export interface Stats {
   spellDC: string | number;
 }
 
-export type CompleteCharacter = Character & Stats & {
-  user_token? : string
+type CharacterWithStats = Character & {
+  id: string
+  user: {id:string}
+  stats: Stats
 };
+
+interface User {
+  username: string;
+  email?: string;
+}
+
+
+type LoggedUser = User & {
+  readonly id: string
+  readonly token: string
+  characters: CharacterWithStats[]
+}
+
+export type {
+  Character, Stats, CharacterWithStats, LoggedUser, User
+}
