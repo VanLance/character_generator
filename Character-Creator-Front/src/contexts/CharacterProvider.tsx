@@ -4,11 +4,14 @@ import useUserContext from '../hooks/useUserContext';
 
 interface CharacterContextType {
     characters: CharacterWithStats[];
-    setCharacters: React.Dispatch<React.SetStateAction<CharacterWithStats[]>>,
-    deleteCharacter: (characterId: string) => void
+    setCharacters: React.Dispatch<React.SetStateAction<CharacterWithStats[]>>;
+    getCharacters: () => Promise<CharacterWithStats[] | void>;
+    deleteCharacter: (characterId: string) => void;
 }
 
-export const CharacterContext = createContext<CharacterContextType>({} as CharacterContextType);
+export const CharacterContext = createContext<CharacterContextType>(
+    {} as CharacterContextType
+);
 
 const base_api_url = import.meta.env.VITE_APP_BASE_API;
 
@@ -18,48 +21,61 @@ export default function DeleteProvider({
     children: JSX.Element | JSX.Element[];
 }) {
     const [characters, setCharacters] = useState<CharacterWithStats[]>([]);
-
     const { removeUserCharacter, user } = useUserContext();
 
-    useEffect(()=>{
-        if(characters.length > 0 && !characters[0].user){
-            console.log('if effect attaching');
-            attachUserToCharacters()
+    useEffect(() => {
+        
+        if (!characters || characters.length === 0) {
+            (async () => {
+                const charactersData = await getCharacters();
+                if (charactersData) {
+                    setCharacters(charactersData);
+                }
+            })();
         }
-    },[characters])
 
-    function attachUserToCharacters(){
-        setCharacters( characters.map( character => Object.assign(character, { user: { id: user.id } })))
+        
+
+    }, [characters]);
+
+
+    async function getCharacters() {
+        const res = await fetch(`${base_api_url}/character`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (res.ok) {
+            const data = await res.json();
+            return data;
+        }
     }
 
     async function deleteCharacter(characterId: string) {
+        const res = await fetch(`${base_api_url}/character/${characterId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer '.concat(user.token),
+            },
+        });
 
-         const res = await fetch(
-                `${base_api_url}/character/${characterId}`,
-                {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: 'Bearer '.concat(user.token),
-                    },
-                }
+        if (res.ok) {
+            const data = await res.json();
+            console.log(data);
+            removeUserCharacter(characterId);
+            setCharacters(
+                characters.filter((character) => character.id !== characterId)
             );
-
-            if (res.ok) {
-                const data = await res.json();
-                console.log(data);
-                removeUserCharacter(characterId);
-                setCharacters(
-                    characters.filter((character) => character.id !== characterId)
-                );
-            }
-            
+        }
     }
 
     const value = {
         characters,
         setCharacters,
-        deleteCharacter
+        getCharacters,
+        deleteCharacter,
     };
 
     return (

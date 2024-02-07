@@ -10,8 +10,8 @@ export default function Body({
     children: JSX.Element | JSX.Element[];
 }) {
     return (
-        <Container>
-            <Stack direction="horizontal">
+        <Container className='max-height'>
+            <Stack direction="horizontal" className='max-height'>
                 {sidebar && <Sidebar />}
                 <Container className="center-container">{children}</Container>
             </Stack>

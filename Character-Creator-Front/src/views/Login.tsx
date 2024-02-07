@@ -48,23 +48,26 @@ export default function LoginPage() {
 
     return (
         <Body sidebar={false}>
-            <h2>LoginPage</h2>
+            <h2>Login</h2>
             <form onSubmit={handleLoginForm} className="center-form">
-                <label htmlFor='username'>
+                <label htmlFor="username">
                     Username:
                     <br />
-                    <input type="text" name='username' ref={usernameField} />
+                    <input type="text" name="username" ref={usernameField} />
                 </label>
                 <br />
                 <br />
-                <label htmlFor='password'>
+                <label htmlFor="password">
                     Password:
                     <br />
-                    <input type="password" name='password' ref={passwordField} />
+                    <input
+                        type="password"
+                        name="password"
+                        ref={passwordField}
+                    />
                 </label>
                 <br />
-                <br />
-                <button>Sign In</button>
+                <input type="submit" value="Submit" className="form-btn" />
             </form>
         </Body>
     );

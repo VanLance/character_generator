@@ -5,7 +5,7 @@ import ListGroup from 'react-bootstrap/esm/ListGroup';
 import { CharacterWithStats } from '../types';
 import { AuthContext } from '../contexts/UserProvider';
 import useCharacterContext from '../hooks/usCharacterContext';
-
+import { titleCase } from '../utilityFunc';
 
 interface CharacterCardProps {
     character: CharacterWithStats;
@@ -14,9 +14,8 @@ interface CharacterCardProps {
 }
 
 export default function CharacterCard({ character }: CharacterCardProps) {
-
     const { user } = useContext(AuthContext);
-    const { deleteCharacter } = useCharacterContext()
+    const { deleteCharacter } = useCharacterContext();
 
     const {
         hp,
@@ -39,39 +38,40 @@ export default function CharacterCard({ character }: CharacterCardProps) {
             'Are you sure you want to delete this post?'
         );
         if (userDelete) {
-           deleteCharacter(character.id)
+            deleteCharacter(character.id);
         }
     }
 
     return (
-        <Card style={{ width: '18rem' }} className="c-card">
+        <Card style={{ width: '18rem' }} className="c-card" data-bs-theme='dark'>
             {/* {character.pic ?
         <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> : ''} */}
-            <Card.Body>
-                <Card.Title>{character.name}</Card.Title>
-                <Card.Text>
-                    Level {' ' + character.level}{' '}
-                    {character._class[0].toUpperCase() +
-                        character._class.slice(1)}
-                    {' ' +
-                        character.race[0].toUpperCase() +
-                        character.race.slice(1)}
+            <Card.Body style={{
+                borderBottom: '3px solid #F1FA8C'
+            }}>
+                <Card.Title className='heading' style={{color: '#F1FA8C'}}>{character.name}</Card.Title>
+                <Card.Text className='blue-txt'>
+                    Level {character.level} 
+                    {' '.concat(titleCase(character.archetype))}
+                    {' '.concat(titleCase(character.race))} <br />
+                    HP: {' '+ hp} AC: {' ' + ac}
                 </Card.Text>
-                <p>
-                    hp: {hp} ac: {ac}
-                </p>
             </Card.Body>
             <ListGroup className="list-group-flush">
-                <ListGroup.Item>Strength: {strength}</ListGroup.Item>
-                <ListGroup.Item>Dexterity: {dexterity}</ListGroup.Item>
-                <ListGroup.Item>Constitution: {constitution}</ListGroup.Item>
-                <ListGroup.Item>Wisdom: {wisdom}</ListGroup.Item>
-                <ListGroup.Item>Intelligence: {intelligence}</ListGroup.Item>
-                <ListGroup.Item>Charisma: {charisma}</ListGroup.Item>
+                <ListGroup.Item className="blue-txt">Strength: {strength}</ListGroup.Item>
+                <ListGroup.Item className="blue-txt">Dexterity: {dexterity}</ListGroup.Item>
+                <ListGroup.Item className="blue-txt">Constitution: {constitution}</ListGroup.Item>
+                <ListGroup.Item className="blue-txt">Wisdom: {wisdom}</ListGroup.Item>
+                <ListGroup.Item className="blue-txt">Intelligence: {intelligence}</ListGroup.Item>
+                <ListGroup.Item className="blue-txt">Charisma: {charisma}</ListGroup.Item>
 
+                <ListGroup.Item className="d-flex justify-content-center">
+                    <span>Owner: {character.user ? character.user.username: user.username}</span>
+                </ListGroup.Item>
                 {user.id === character.user?.id && (
-                    <ListGroup.Item className="buttonSection">
+                    <ListGroup.Item className="btn-container">
                         <button
+                            className="btn"
                             onClick={() => {
                                 updateCharacter(character.id || '');
                             }}
@@ -79,6 +79,7 @@ export default function CharacterCard({ character }: CharacterCardProps) {
                             Update
                         </button>
                         <button
+                            className="btn"
                             onClick={() => {
                                 handleDeleteClick();
                             }}

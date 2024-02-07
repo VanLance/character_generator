@@ -9,13 +9,18 @@ import CreateCharacter from './views/CreateCharacter';
 import Index from './views/Index';
 import Register from './views/Register';
 import { ToastContainer } from 'react-toastify'
+import useUserContext from './hooks/useUserContext';
 // import CharacterView from './views/CharacterView';
 
 
 function App() {
 
+    const { user } = useUserContext()
+
+    console.log(user);
+
     return (
-        <Container fluid className="app">
+        <Container fluid className="app" >
             <BrowserRouter>
                 <Header />
                 <Routes>

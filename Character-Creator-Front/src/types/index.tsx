@@ -1,5 +1,5 @@
 interface Character {
-  _class: string;
+  archetype: string;
   name: string;
   race: string;
   gender: string;
@@ -20,7 +20,7 @@ interface Stats {
 
 type CharacterWithStats = Character & {
   id: string
-  user: {id:string}
+  user: {id:string, username: string}
   stats: Stats
 };
 
@@ -36,6 +36,13 @@ type LoggedUser = User & {
   characters: CharacterWithStats[]
 }
 
+type CharacterOptions = {
+  archetypes: string[],
+  races: string[],
+  genders: string[],
+  levels: Array<string | number>,
+}
+
 export type {
-  Character, Stats, CharacterWithStats, LoggedUser, User
+  Character, Stats, CharacterWithStats, LoggedUser, User, CharacterOptions
 }

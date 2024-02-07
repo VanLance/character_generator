@@ -41,8 +41,8 @@ export default function Register() {
 
         if (res.ok) {
             const data = await res.json();
-            
-            loginUser(data)
+
+            loginUser(data);
             navigate('/');
         }
     }
@@ -51,28 +51,31 @@ export default function Register() {
         <Body sidebar={false}>
             <h2>Register Page</h2>
             <form onSubmit={handleRegisterForm} className="center-form">
-                <label htmlFor='username'>
+                <label htmlFor="username">
                     Username:
                     <br />
-                    <input type="text" ref={usernameField} name='username'/>
+                    <input type="text" ref={usernameField} name="username" />
                 </label>
                 <br />
                 <br />
-                <label htmlFor='email'>
+                <label htmlFor="email">
                     Email:
                     <br />
-                    <input type="email" ref={emailField} name='email'/>
+                    <input type="email" ref={emailField} name="email" />
                 </label>
                 <br />
                 <br />
-                <label htmlFor='password'>
+                <label htmlFor="password">
                     Password:
                     <br />
-                    <input type="password" ref={passwordField} name='password'/>
+                    <input
+                        type="password"
+                        ref={passwordField}
+                        name="password"
+                    />
                 </label>
                 <br />
-                <br />
-                <button>Register</button>
+                <input type="submit" value="Register" className="form-btn" />
             </form>
         </Body>
     );

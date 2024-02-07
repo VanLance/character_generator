@@ -1,12 +1,12 @@
 import { createContext, useEffect, useState } from 'react';
-import { CharacterWithStats, LoggedUser } from '../types';
+import { Character, CharacterWithStats, LoggedUser } from '../types';
 
 interface UserContextType {
     user: LoggedUser;
     setUser: React.Dispatch<React.SetStateAction<LoggedUser>>;
     removeUserCharacter: (characterId: string) => void;
     updateUserCharacters: (characters: CharacterWithStats[]) => void;
-    loginUser: ( user: LoggedUser) => void
+    loginUser: (user: LoggedUser) => void;
     logoutUser: () => void;
 }
 
@@ -22,6 +22,11 @@ export default function AuthProvider({
     const [user, setUser] = useState<LoggedUser>({} as LoggedUser);
 
     useEffect(() => {
+        console.log(user, 'user effect context looking for attach');
+
+        // if (user.characters?.length > 0 && !user.characters[0].user?.id) {
+        //     attachUserToCharacters();
+        // }
         if (localStorage.getItem('user') && !user.id) {
             updateUserFromLocal();
             return;
@@ -34,16 +39,14 @@ export default function AuthProvider({
 
     function updateUserFromLocal() {
         setUser(JSON.parse(localStorage.getItem('user') ?? ''));
-      
-        
     }
 
     function updateLocalFromUser() {
         localStorage.setItem('user', JSON.stringify(user));
     }
 
-    function loginUser(user: LoggedUser){
-      setUser(user)
+    function loginUser(user: LoggedUser) {
+        setUser(user);
     }
 
     function logoutUser() {
@@ -54,6 +57,7 @@ export default function AuthProvider({
     function updateUserCharacters(characters: CharacterWithStats[]) {
         setUser({ ...user, characters });
     }
+
 
     function removeUserCharacter(characterId: string) {
         const updatedCharacters = user.characters.filter(

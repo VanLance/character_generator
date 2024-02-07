@@ -11,9 +11,9 @@ export default function Header() {
     const { user } = useUserContext();
 
     return (
-        <Navbar bg="light" sticky="top" className="header mb-3">
+        <Navbar data-bs-theme='dark' bg='dark' sticky="top" className="header mb-3">
             <Container>
-                <Navbar.Brand>Character Generator</Navbar.Brand>
+                <Navbar.Brand style={{ color : '#FF79C6'}}>Character Generator</Navbar.Brand>
                 {user.username ? (
                     <Nav.Link as={NavLink} to="/logout">
                         Logout
