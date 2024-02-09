@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
-import { Character, CharacterWithStats, LoggedUser } from '../types';
+import { CharacterWithStats, LoggedUser } from '../types';
 
 interface UserContextType {
     user: LoggedUser;

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import Body from '../components/Body';
 import useUserContext from '../hooks/useUserContext';
@@ -16,12 +17,13 @@ export default function Register() {
     const base_api_url = import.meta.env.VITE_APP_BASE_API;
 
     useEffect(() => {
-        if (user.token) {
-            localStorage.setItem('token', JSON.stringify(user.token));
-            localStorage.setItem('username', JSON.stringify(user.username));
+        /* 
+        Get Token
+         */
+        if (user.username || localStorage.getItem('user')) {
+            toast.success(user.username.concat(' registered!'));
+            navigate('/login');
         }
-
-        if (user.token || localStorage.getItem('token')) navigate('/');
     }, [user]);
 
     async function handleRegisterForm(e: React.FormEvent<HTMLFormElement>) {
@@ -41,10 +43,10 @@ export default function Register() {
 
         if (res.ok) {
             const data = await res.json();
-
             loginUser(data);
-            navigate('/');
+            return
         }
+        toast.error("Registered Failed")
     }
 
     return (

@@ -7,8 +7,7 @@ import Logout from './components/Logout';
 import CharactersView from './views/CharactersView';
 import CreateCharacter from './views/CreateCharacter';
 import Index from './views/Index';
-import Register from './views/Register';
-import { ToastContainer } from 'react-toastify'
+import Register from './views/Register'
 import useUserContext from './hooks/useUserContext';
 // import CharacterView from './views/CharacterView';
 
@@ -40,7 +39,7 @@ function App() {
                     <Route path="/logout" element={<Logout />} />
                 </Routes>
             </BrowserRouter>
-            <ToastContainer autoClose={3000} closeOnClick theme='dark'/>
+            
         </Container>
     );
 }

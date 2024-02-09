@@ -43,32 +43,49 @@ export default function CharacterCard({ character }: CharacterCardProps) {
     }
 
     return (
-        <Card style={{ width: '18rem' }} className="c-card" data-bs-theme='dark'>
+        <Card
+            style={{ width: '18rem' }}
+            className="c-card"
+            data-bs-theme="dark"
+        >
             {/* {character.pic ?
         <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> : ''} */}
-            <Card.Body style={{
-                borderBottom: '3px solid #F1FA8C'
-            }}>
-                <Card.Title className='heading' style={{color: '#F1FA8C'}}>{character.name}</Card.Title>
-                <Card.Text className='blue-txt'>
-                    Level {character.level} 
+            <Card.Body
+                style={{
+                    borderBottom: '3px solid #F1FA8C',
+                }}
+            >
+                <Card.Title className="heading" style={{ color: '#F1FA8C' }}>
+                    {character.name}
+                </Card.Title>
+                <Card.Text className="blue-txt">
                     {' '.concat(titleCase(character.archetype))}
                     {' '.concat(titleCase(character.race))} <br />
-                    HP: {' '+ hp} AC: {' ' + ac}
+                    Level {character.level} <br />
+                    HP: {' ' + hp} AC: {' ' + ac}
                 </Card.Text>
             </Card.Body>
             <ListGroup className="list-group-flush">
-                <ListGroup.Item className="blue-txt">Strength: {strength}</ListGroup.Item>
-                <ListGroup.Item className="blue-txt">Dexterity: {dexterity}</ListGroup.Item>
-                <ListGroup.Item className="blue-txt">Constitution: {constitution}</ListGroup.Item>
-                <ListGroup.Item className="blue-txt">Wisdom: {wisdom}</ListGroup.Item>
-                <ListGroup.Item className="blue-txt">Intelligence: {intelligence}</ListGroup.Item>
-                <ListGroup.Item className="blue-txt">Charisma: {charisma}</ListGroup.Item>
-
-                <ListGroup.Item className="d-flex justify-content-center">
-                    <span>Owner: {character.user ? character.user.username: user.username}</span>
+                <ListGroup.Item className="blue-txt">
+                    Strength: {strength}
                 </ListGroup.Item>
-                {user.id === character.user?.id && (
+                <ListGroup.Item className="blue-txt">
+                    Dexterity: {dexterity}
+                </ListGroup.Item>
+                <ListGroup.Item className="blue-txt">
+                    Constitution: {constitution}
+                </ListGroup.Item>
+                <ListGroup.Item className="blue-txt">
+                    Wisdom: {wisdom}
+                </ListGroup.Item>
+                <ListGroup.Item className="blue-txt">
+                    Intelligence: {intelligence}
+                </ListGroup.Item>
+                <ListGroup.Item className="blue-txt">
+                    Charisma: {charisma}
+                </ListGroup.Item>
+
+                {user.id === character.user?.id ? (
                     <ListGroup.Item className="btn-container">
                         <button
                             className="btn"
@@ -86,6 +103,15 @@ export default function CharacterCard({ character }: CharacterCardProps) {
                         >
                             Delete
                         </button>
+                    </ListGroup.Item>
+                ) : (
+                    <ListGroup.Item className="d-flex justify-content-center">
+                        <span>
+                            Owner:{' '}
+                            {character.user
+                                ? character.user.username
+                                : user.username}
+                        </span>
                     </ListGroup.Item>
                 )}
             </ListGroup>
